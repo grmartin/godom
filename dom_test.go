@@ -509,6 +509,46 @@ func TestElementGetElementsByTagNameNodeListLengthLive(t *testing.T) {
   }
 }
 
+func TestElementGetElementsByTagNameNodeListItem(t *testing.T) {
+  d := dom.ParseString(
+  `<foo id="parent">
+     <foo id="a">
+       <bar id="b"/>
+       <foo id="c"/>
+     </foo>
+     <bar id="d"/>
+     <foo id="e"/>
+     <bar id="f"/>
+  </foo>`)
+
+  parent := d.DocumentElement()
+  foos := parent.GetElementsByTagName("foo")
+
+  if (foos.Length() != 3) {
+    t.Errorf("Tag NodeList size not accurate")
+  }
+
+  item0 := foos.Item(0).(dom.Element)
+  if (item0.GetAttribute("id") != "a") {
+    t.Errorf("First item was not a, it was %s", item0.GetAttribute("id"))
+  }
+
+  item1 := foos.Item(1).(dom.Element)
+  if (item1.GetAttribute("id") != "c") {
+    t.Errorf("Second item was not c, it was %s", item1.GetAttribute("id"))
+  }
+
+  item2 := foos.Item(2).(dom.Element)
+  if (item2.GetAttribute("id") != "e") {
+    t.Errorf("Third item was not e, it was %s", item2.GetAttribute("id"))
+  }
+
+  item3 := foos.Item(3)
+  if (item3 != nil) {
+    t.Errorf("Fourth item was not nil")
+  }
+}
+
 func TestNodeFirstChild(t *testing.T) {
   d := dom.ParseString(`<parent><child0/><child1/><child2/></parent>`);
   r := d.DocumentElement();
