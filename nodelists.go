@@ -35,17 +35,23 @@ func newChildNodelist(p *_node) (*_childNodelist) {
 // TODO: Find a home for this function.  It operates only on interface types.
 /**
  * Walks the tree of nodes in a depth-first manner, calling the
- * function f on each of the children of the passed in node.
+ * function f on each of the children of the passed in node.  The walk
+ * will continue until the function does not return true.
  */
-func walkTreeDepthFirst(n Node, f func(Node)) {
+func walkTreeDepthFirst(n Node, f func(Node) bool) bool {
   childNodes := n.ChildNodes();
   numChildren := childNodes.Length();
   var ix uint
   for ix = 0; ix < numChildren; ix++ {
     child := childNodes.Item(ix)
-    f(child)
-    walkTreeDepthFirst(child, f)
+    if f(child) != true {
+      return false
+    }
+    if walkTreeDepthFirst(child, f) != true {
+      return false
+    }
   }
+  return true
 }
 
 // A _tagNodeList only stores a reference to the node and the tagname 
@@ -60,14 +66,15 @@ type _tagNodeList struct {
 func (nl *_tagNodeList) Length() uint {
   parentElement := nl.e
   var count uint = 0
-  walkTreeDepthFirst(parentElement, func(n Node) {
+  walkTreeDepthFirst(parentElement, func(n Node) bool {
     if n.NodeType() == 1 {
       if nl.tag == "*" || nl.tag == n.(Element).TagName() {
         count++;
       }
     }
+    return true
   })
-  return count;
+  return count
 }
 
 func (nl *_tagNodeList) Item(index uint) Node {
@@ -75,18 +82,20 @@ func (nl *_tagNodeList) Item(index uint) Node {
   parentElement := nl.e
   foundNode := Node(nil)
 
-  walkTreeDepthFirst(parentElement, func(n Node) {
+  walkTreeDepthFirst(parentElement, func(n Node) bool {
     if n.NodeType() == 1 {
       if nl.tag == "*" || nl.tag == n.(Element).TagName() {
         if count == index {
           foundNode = n
+          return false
         }
         count++
       }
     }
+    return true
   })
 
-  return foundNode;
+  return foundNode
 }
 
 func newTagNodeList(p *_elem, t string) (*_tagNodeList) {
