@@ -32,6 +32,22 @@ func newChildNodelist(p *_node) (*_childNodelist) {
   return nl;
 }
 
+// TODO: Find a home for this function.  It operates only on interface types.
+/**
+ * Walks the tree of nodes in a depth-first manner, calling the
+ * function f on each of the children of the passed in node.
+ */
+func walkTreeDepthFirst(n Node, f func(Node)) {
+  childNodes := n.ChildNodes();
+  numChildren := childNodes.Length();
+  var ix uint
+  for ix = 0; ix < numChildren; ix++ {
+    child := childNodes.Item(ix)
+    f(child)
+    walkTreeDepthFirst(child, f)
+  }
+}
+
 // A _tagNodeList only stores a reference to the node and the tagname 
 // on which getElementsByTagName() was called so that the list can be 
 // live.  TODO: Do we really query every time or can we cache the results
@@ -42,12 +58,25 @@ type _tagNodeList struct {
 }
 
 func (nl *_tagNodeList) Length() uint {
-  return 0;
+  parentElement := nl.e
+  var count uint = 0
+  walkTreeDepthFirst(parentElement, func(n Node) {
+    if n.NodeType() == 1 {
+      if nl.tag == "*" || nl.tag == n.(Element).TagName() {
+        count++;
+      }
+    }
+  })
+  return count;
 }
 
 func (nl *_tagNodeList) Item(index uint) Node {
   var count uint = 0
   e := nl.e
+  // TODO: Fix this.  The root element of a tag NodeList cannot be a node in the NodeList.
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1938918D says getElementsByTagName()
+  // returns only _descendent_ elements.
+  // TODO: write a test.
   if e.NodeType() == 1 {
     // check for an id
     if e.TagName() == nl.tag {
@@ -77,5 +106,7 @@ func (nl *_tagNodeList) Item(index uint) Node {
 func newTagNodeList(p *_elem, t string) (*_tagNodeList) {
   nl := new(_tagNodeList);
   nl.e = p;
+  nl.tag = t
   return nl;
 }
+
