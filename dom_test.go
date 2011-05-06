@@ -456,7 +456,7 @@ func TestNodeReplaceChild(t *testing.T) {
   }
 }
 
-func TestElementGetElementsByTagName(t *testing.T) {
+func TestElementGetElementsByTagNameNodeListLength(t *testing.T) {
   d := dom.ParseString(
   `<parent id="p"><child>
       <grandchild />
@@ -474,6 +474,25 @@ func TestElementGetElementsByTagName(t *testing.T) {
     t.Errorf("Element.GetElementsByTagName() returned %d children instead of 2", grandchildren.Length()); 
   } else if no_offspring.Length() != 0 {
   	t.Errorf("Element.GetElementsByTagName() returned %d children instead of 0", no_offspring.Length());
+  }
+}
+
+func TestElementGetElementsByTagNameNodeListNotIncludeParent(t *testing.T) {
+  d := dom.ParseString(
+  `<foo>
+     <foo/>
+     <foo/>
+     <foo/>
+     <bar/>
+     <bar/>
+     <bar/>
+   </foo>`)
+
+  fooParent := d.DocumentElement()
+  foos := fooParent.GetElementsByTagName("foo")
+  
+  if foos.Length() != 3 {
+    t.Errorf("Element.GetElementsByTagName() returned %d foo descendants instead of 3", foos.Length())
   }
 }
 
