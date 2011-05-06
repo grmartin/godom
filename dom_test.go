@@ -477,15 +477,11 @@ func TestElementGetElementsByTagNameNodeListLength(t *testing.T) {
   }
 }
 
-func TestElementGetElementsByTagNameNodeListNotIncludeParent(t *testing.T) {
+func TestElementGetElementsByTagNameNodeListLengthDoesNotIncludeParent(t *testing.T) {
   d := dom.ParseString(
   `<foo>
-     <foo/>
-     <foo/>
-     <foo/>
-     <bar/>
-     <bar/>
-     <bar/>
+     <foo/><foo/><foo/>
+     <bar/><bar/><bar/>
    </foo>`)
 
   fooParent := d.DocumentElement()
@@ -493,6 +489,23 @@ func TestElementGetElementsByTagNameNodeListNotIncludeParent(t *testing.T) {
   
   if foos.Length() != 3 {
     t.Errorf("Element.GetElementsByTagName() returned %d foo descendants instead of 3", foos.Length())
+  }
+}
+
+func TestElementGetElementsByTagNameNodeListLengthLive(t *testing.T) {
+  d := dom.ParseString(
+  `<parent>
+     <foo/><foo/><foo/>
+   </parent>`)
+
+  parent := d.DocumentElement()
+  foos := parent.GetElementsByTagName("foo")
+
+  anotherFoo := d.CreateElement("foo").(dom.Node);
+  parent.AppendChild(anotherFoo);
+
+  if foos.Length() != 4 {
+    t.Errorf("Element.GetElementsByTagName() NodeList not live? Has %d foo descendants instead of 4", foos.Length())
   }
 }
 
