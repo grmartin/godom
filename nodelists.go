@@ -72,35 +72,21 @@ func (nl *_tagNodeList) Length() uint {
 
 func (nl *_tagNodeList) Item(index uint) Node {
   var count uint = 0
-  e := nl.e
-  // TODO: Fix this.  The root element of a tag NodeList cannot be a node in the NodeList.
-  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1938918D says getElementsByTagName()
-  // returns only _descendent_ elements.
-  // TODO: write a test.
-  if e.NodeType() == 1 {
-    // check for an id
-    if e.TagName() == nl.tag {
-      if index == count {
-        return e
-      }
-      count++
-    }
-    // if not found, check the children
-    cnodes := e.ChildNodes()
-    var ix uint
-    clen := cnodes.Length();
-    for ix = 0 ; ix < clen ; ix++ {
-      cnode := cnodes.Item(ix)
-      // can't cast safely unless it's an Element for reals
-      if cnode.NodeType() == 1 {
-        result := nl.Item(index - count)
-        if result != nil {
-          return result
+  parentElement := nl.e
+  foundNode := Node(nil)
+
+  walkTreeDepthFirst(parentElement, func(n Node) {
+    if n.NodeType() == 1 {
+      if nl.tag == "*" || nl.tag == n.(Element).TagName() {
+        if count == index {
+          foundNode = n
         }
+        count++
       }
     }
-  }
-  return Node(nil);
+  })
+
+  return foundNode;
 }
 
 func newTagNodeList(p *_elem, t string) (*_tagNodeList) {
