@@ -421,6 +421,64 @@ func TestDocumentGetElementById(t *testing.T) {
   }
 }
 
+func TestDocumentGetElementsByTagNameLength(t *testing.T) {
+  d := dom.ParseString(
+  `<foo id="a">
+     <foo id="b"/>
+     <bar id="c"/>
+     <foo id="d">
+       <foo id="e"/>
+     </foo>
+   </foo>`)
+
+  foos := d.GetElementsByTagName("foo")
+  
+  if (foos.Length() != 4) {
+    t.Errorf("Document.GetElementsByTagName() has %d nodes, not 4", foos.Length())
+  }
+}
+
+func TestDocumentGetElementsByTagNameItem(t *testing.T) {
+  d := dom.ParseString(
+  `<foo id="a">
+     <foo id="b"/>
+     <bar id="c"/>
+     <foo id="d">
+       <foo id="e"/>
+     </foo>
+   </foo>`)
+
+  foos := d.GetElementsByTagName("foo")
+  
+  node0 := foos.Item(0).(dom.Element)
+  if node0 == nil {
+    t.Errorf("NodeList.Item(0) from Document.GetElementsByTagName() returned nil")
+  } else if node0.GetAttribute("id") != "a" {
+    t.Errorf("NodeList.Item(0) did not return a, it returned %s", node0.GetAttribute("id"))
+  }
+
+  node1 := foos.Item(1).(dom.Element)
+  if node1 == nil {
+    t.Errorf("NodeList.Item(1) from Document.GetElementsByTagName() returned nil")
+  } else if node1.GetAttribute("id") != "b" {
+    t.Errorf("NodeList.Item(1) did not return b, it returned %s", node1.GetAttribute("id"))
+  }
+
+  node2 := foos.Item(2).(dom.Element)
+  if node2 == nil {
+    t.Errorf("NodeList.Item(2) from Document.GetElementsByTagName() returned nil")
+  } else if node2.GetAttribute("id") != "d" {
+    t.Errorf("NodeList.Item(2) did not return d, it returned %s", node2.GetAttribute("id"))
+  }
+
+  node3 := foos.Item(3).(dom.Element)
+  if node3 == nil {
+    t.Errorf("NodeList.Item(3) from Document.GetElementsByTagName() returned nil")
+  } else if node3.GetAttribute("id") != "e" {
+    t.Errorf("NodeList.Item(3) did not return e, it returned %s", node3.GetAttribute("id"))
+  }
+}
+
 func TestNodeInsertBefore(t *testing.T) {
   d := dom.ParseString(`<parent><child0/><child2/></parent>`);
   r := d.DocumentElement();
