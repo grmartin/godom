@@ -10,11 +10,11 @@ import "xml"
 
 type _attr struct {
   *_node
-  v string // value (for attr)
+  value string // value (for attr)
 }
 
 func (a *_attr) NodeValue() string {
-  return a.v
+  return a.value
 }
 
 func (a *_attr) AppendChild(n Node) Node {

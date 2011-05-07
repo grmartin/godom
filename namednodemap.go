@@ -16,11 +16,11 @@ func (m *_attrnamednodemap) Length() uint {
 }
 
 func (m *_attrnamednodemap) Item(index uint) Node {
-  if (index >= 0 && index < m.Length()) {
+  if index >= 0 && index < m.Length() {
     i := uint(0)
-    for name,val := range(m.e.attribs) {
+    for _, attr := range(m.e.attribs) {
       if i == index {
-        return newAttr(name,val)
+        return attr
       }
       i += 1
     }
