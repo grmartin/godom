@@ -71,7 +71,7 @@ func (e *_elem) GetElementsByTagName(name string) NodeList {
 }
 
 func newElem(token xml.StartElement) (*_elem) {
-  n := newNode(1)
+  n := newNode(ELEMENT_NODE)
   n.n = token.Name
   e := &_elem{n, make(map[string] string)}
   n.self = Node(e)
