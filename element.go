@@ -63,7 +63,7 @@ func (e *_elem) GetAttributeNode(attrName string) Attr {
 func (e *_elem) SetAttribute(attrName string, attrVal string) {
   attr, ok := e.attribs[attrName]
   if (!ok) {
-    e.attribs[attrName] = newAttr(attrName, attrVal)
+    e.attribs[attrName] = newAttr(attrName, attrVal, e)
   } else {
     attr.value = attrVal
   }

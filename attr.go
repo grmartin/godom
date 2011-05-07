@@ -11,6 +11,7 @@ import "xml"
 type _attr struct {
   *_node
   value string // value (for attr)
+  ownerElement *_elem
 }
 
 func (a *_attr) NodeValue() string {
@@ -49,10 +50,14 @@ func (a *_attr) Name() string {
   return a.NodeName()
 }
 
-func newAttr(name string, val string) (*_attr) {
+func (a *_attr) OwnerElement() Element {
+  return a.ownerElement;
+}
+
+func newAttr(name string, val string, owner *_elem) (*_attr) {
   node := newNode(ATTRIBUTE_NODE)
   node.n = xml.Name{"", name}
-  a := &_attr { node, val }
+  a := &_attr { node, val, owner }
   node.self = Node(a)
   return a
 }
