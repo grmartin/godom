@@ -12,10 +12,10 @@ package dom
 // according to the DOM API is expected to be a string. Perhaps return a pointer to a string?
 
 import (
-        "strings"
-        "xml"
-        "os"
-        "io"
+  "strings"
+  "xml"
+  "os"
+  "io"
 )
 
 const (

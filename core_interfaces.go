@@ -70,6 +70,7 @@ type (
     Node
     DocumentElement() Element
     CreateElement(tagName string) Element
+    CreateTextNode(data string) Text
     OwnerDocument() Document
     // DOM Level 2
     GetElementById(id string) Element

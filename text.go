@@ -29,7 +29,7 @@ func (t *_text) OwnerDocument() Document {
 }
 
 func newText(token xml.CharData) (*_text) {
-  n := newNode(3);
+  n := newNode(TEXT_NODE);
   t := &_text{ &_cdata{n}, token.Copy() };
   n.self = Node(t)
   return t

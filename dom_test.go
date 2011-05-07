@@ -195,33 +195,47 @@ func TestNodeParentNodeOnRoot(t *testing.T) {
 }
 
 func TestNodeParentNodeOnDocument(t *testing.T) {
-  d, _ := dom.ParseString(`<foo></foo>`);
+  d, _ := dom.ParseString(`<foo></foo>`)
   if (d.ParentNode() != nil) {
-  	t.Errorf("document.ParentNode() did not return nil");
+  	t.Errorf("document.ParentNode() did not return nil")
   }
 }
 
 // the root node of the document is a child node
 func TestNodeDocumentChildNodesLength(t *testing.T) {
-  d, _ := dom.ParseString(`<foo></foo>`);
+  d, _ := dom.ParseString(`<foo></foo>`)
   if (d.ChildNodes().Length() != 1) {
-  	t.Errorf("document.ChildNodes().Length() did not return the number of children");
+  	t.Errorf("document.ChildNodes().Length() did not return the number of children")
   }
 }
 
 func TestNodeDocumentChildNodeIsRoot(t *testing.T) {
-  d, _ := dom.ParseString(`<foo></foo>`);
-  root := d.DocumentElement().(dom.Node);
+  d, _ := dom.ParseString(`<foo></foo>`)
+  root := d.DocumentElement().(dom.Node)
   if (d.ChildNodes().Item(0) != root) {
-  	t.Errorf("document.ChildNodes().Item(0) is not the documentElement");
+  	t.Errorf("document.ChildNodes().Item(0) is not the documentElement")
   }
 }
 
 func TestDocumentCreateElement(t *testing.T) {
-  d, _ := dom.ParseString(`<foo></foo>`);
-  ne := d.CreateElement("child");
+  d, _ := dom.ParseString(`<foo></foo>`)
+  ne := d.CreateElement("child")
   if (ne.NodeName() != "child") {
-  	t.Errorf("document.CreateNode('child') did not create a <child> Element");
+  	t.Errorf("document.CreateNode('child') did not create a <child> Element")
+  }
+}
+
+func TestDocumentCreateTextNode(t *testing.T) {
+  d, _ := dom.ParseString(`<foo></foo>`)
+  tn := d.CreateTextNode("text inside")
+  if (tn == nil) {
+  	t.Errorf("document.CreateTextNode() returned nil")
+  }
+  if (tn.NodeType() != dom.TEXT_NODE) {
+  	t.Errorf("document.CreateTextNode() did not create a Text node")
+  }
+  if (tn.NodeValue() != "text inside") {
+  	t.Errorf("document.CreateTextNode(\"text inside\") created a Text node with \"%s\" contents", tn.NodeValue())
   }
 }
 
