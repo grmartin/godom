@@ -54,17 +54,17 @@ func walkTreeDepthFirst(n Node, f func(Node) bool) bool {
   return true
 }
 
-// A _tagNodeList only stores a reference to the node and the tagname 
+// A _tagNodeList only stores a reference to the element and the tagname 
 // on which getElementsByTagName() was called so that the list can be 
 // live.  TODO: Do we really query every time or can we cache the results
 // somehow?
 type _tagNodeList struct {
-  e *_elem;
+  rootNode Node;
   tag string
 }
 
 func (nl *_tagNodeList) Length() uint {
-  parentElement := nl.e
+  parentElement := nl.rootNode
   var count uint = 0
   walkTreeDepthFirst(parentElement, func(n Node) bool {
     if n.NodeType() == 1 {
@@ -79,7 +79,7 @@ func (nl *_tagNodeList) Length() uint {
 
 func (nl *_tagNodeList) Item(index uint) Node {
   var count uint = 0
-  parentElement := nl.e
+  parentElement := nl.rootNode
   foundNode := Node(nil)
 
   walkTreeDepthFirst(parentElement, func(n Node) bool {
@@ -98,9 +98,9 @@ func (nl *_tagNodeList) Item(index uint) Node {
   return foundNode
 }
 
-func newTagNodeList(p *_elem, t string) (*_tagNodeList) {
+func newTagNodeList(p Node, t string) (*_tagNodeList) {
   nl := new(_tagNodeList);
-  nl.e = p;
+  nl.rootNode = p;
   nl.tag = t
   return nl;
 }

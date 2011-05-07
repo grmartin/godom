@@ -58,6 +58,7 @@ type (
     OwnerDocument() Document
     // DOM Level 2
     GetElementById(id string) Element
+    GetElementsByTagName(name string) NodeList
   }
   
   // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-FF21A306

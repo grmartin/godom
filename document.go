@@ -24,6 +24,7 @@ func (d *_doc) OwnerDocument() Document { return ownerDocument(d); }
 func (d *_doc) CreateElement(tag string) Element { 
   return newElem(xml.StartElement { xml.Name { "", tag }, nil }); 
 }
+
 func (d *_doc) setRoot(r Element) Element {
   // empty the children vector
   if d.ChildNodes().Length() > 0 {
@@ -32,9 +33,15 @@ func (d *_doc) setRoot(r Element) Element {
   appendChild(d,r);
   return r;
 }
+
 func (d *_doc) GetElementById(id string) Element {
-  return getElementById(d.DocumentElement(),id);
+  return getElementById(d.DocumentElement(), id);
 }
+
+func (d *_doc) GetElementsByTagName(tagName string) NodeList {
+  return newTagNodeList(d, tagName);
+}
+
 func newDoc() (*_doc) {
   n := newNode(9)
   d := &_doc{ n };
