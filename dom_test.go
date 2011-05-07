@@ -299,6 +299,21 @@ func TestAttributesOnElement(t *testing.T) {
   }
 }
 
+func TestGetAttributeNode(t *testing.T) {
+  d, _ := dom.ParseString(`<parent attr1="val1" attr2="val2"/>`)
+  r := d.DocumentElement()
+
+  attr1 := r.GetAttributeNode("attr1")
+  if attr1.Name() != "attr1" || attr1.Value() != "val1" {
+    t.Errorf("Attribute node 1 not correct")
+  }
+
+  attr2 := r.GetAttributeNode("attr2")
+  if attr2.Name() != "attr2" || attr2.Value() != "val2" {
+    t.Errorf("Attribute node 2 not correct")
+  }
+}
+
 func TestAttrNodeName(t *testing.T) {
   d, _ := dom.ParseString(`<parent attr1="val"/>`)
   r := d.DocumentElement()

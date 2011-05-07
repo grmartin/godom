@@ -13,7 +13,7 @@ import (
 
 type _elem struct {
   *_node
-  attribs map[string] string // attributes of the element
+  attribs map[string] *_attr // attributes of the element
 }
 
 func (e *_elem) NodeValue() string {
@@ -43,21 +43,35 @@ func (e *_elem) Attributes() NamedNodeMap {
 func (e *_elem) GetElementById(id string) Element {
   return getElementById(e,id).(Element)
 }
+
 func (e *_elem) GetAttribute(name string) string {
-  val, ok := e.attribs[name]
-  if (!ok) {
-    val = ""
+  attr, ok := e.attribs[name]
+  if (ok) {
+    return attr.value
   }
-  return val
+  return ""
 }
 
-func (e *_elem) SetAttribute(attrname string, attrval string) {
-  e.attribs[attrname]=attrval
+func (e *_elem) GetAttributeNode(attrName string) Attr {
+  attr, ok := e.attribs[attrName]
+  if (ok) {
+    return attr
+  }
+  return nil
+}
+
+func (e *_elem) SetAttribute(attrName string, attrVal string) {
+  attr, ok := e.attribs[attrName]
+  if (!ok) {
+    e.attribs[attrName] = newAttr(attrName, attrVal)
+  } else {
+    attr.value = attrVal
+  }
 }
 
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-6D6AC0F9
 func (e *_elem) RemoveAttribute(name string) {
-  e.attribs[name] = "", false
+  e.attribs[name] = nil, false
 }
 
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-ElHasAttr
@@ -73,7 +87,7 @@ func (e *_elem) GetElementsByTagName(name string) NodeList {
 func newElem(token xml.StartElement) (*_elem) {
   n := newNode(ELEMENT_NODE)
   n.n = token.Name
-  e := &_elem{n, make(map[string] string)}
+  e := &_elem{n, make(map[string] *_attr)}
   n.self = Node(e)
   return e
 }

@@ -43,6 +43,7 @@ type (
     Node
     TagName() string
     GetAttribute(name string) string
+    GetAttributeNode(name string) Attr
     SetAttribute(name string, value string)
     RemoveAttribute(name string)
     OwnerDocument() Document
