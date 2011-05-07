@@ -12,56 +12,83 @@ package dom
 //        implement NodeName() among other things)
 
 import (
-  "container/vector";
-  "xml";
+  "container/vector"
+  "xml"
 )
 
 type _node struct {
-  T int; // node type
-  p Node; // parent
-  c vector.Vector; // children
-  n xml.Name; // name
-  self Node; // this _node as a Node
+  T int           // node type
+  p Node          // parent
+  c vector.Vector // children
+  n xml.Name      // name
+  self Node       // this _node as a Node
 }
 
 // internal methods used so that our workhorses can do the real work
 func (n *_node) setParent(p Node) {
-  n.p = p;
+  n.p = p
 }
+
 func (n *_node) insertChildAt(c Node, i uint) {
-  n.c.Insert(int(i), c);
+  n.c.Insert(int(i), c)
 }
+
 func (n *_node) removeChild(c Node) {
   for i := n.c.Len()-1 ; i >= 0 ; i-- {
     if n.c.At(i).(Node) == c {
-      n.c.Delete(i);
-      break;
+      n.c.Delete(i)
+      break
     }
   }
 }
 
 func (n *_node) NodeName() string {
   switch n.T {
-    case 1: return n.n.Local;
-    case 2: return n.n.Local;
-    case 9: return "#document";
+    case 1: return n.n.Local
+    case 2: return n.n.Local
+    case 9: return "#document"
   }
-  return "Node.NodeName() not implemented";
+  return "Node.NodeName() not implemented"
 }
-func (n *_node) NodeValue() string { return "Node.NodeValue() not implemented"; }
-func (n *_node) TagName() string { return n.NodeName(); }
-func (n *_node) NodeType() int { return n.T; }
-func (n *_node) AppendChild(c Node) Node { return appendChild(n,c); }
-func (n *_node) RemoveChild(c Node) Node { return removeChild(n,c); }
-func (n *_node) ChildNodes() NodeList { return newChildNodelist(n); }
-func (n *_node) ParentNode() Node { return n.p; }
-func (n *_node) Attributes() NamedNodeMap { return NamedNodeMap(nil); }
+
+func (n *_node) NodeValue() string {
+  return "Node.NodeValue() not implemented"
+}
+
+func (n *_node) TagName() string {
+  return n.NodeName()
+}
+
+func (n *_node) NodeType() int {
+  return n.T
+}
+
+func (n *_node) AppendChild(c Node) Node {
+  return appendChild(n,c)
+}
+
+func (n *_node) RemoveChild(c Node) Node {
+  return removeChild(n,c)
+}
+
+func (n *_node) ChildNodes() NodeList {
+  return newChildNodelist(n)
+}
+
+func (n *_node) ParentNode() Node {
+  return n.p
+}
+
+func (n *_node) Attributes() NamedNodeMap {
+  return NamedNodeMap(nil)
+}
+
 func (n *_node) HasChildNodes() (b bool) {
-  b = false;
+  b = false
   if n.c.Len() > 0 {
-    b = true;
+    b = true
   }
-  return;
+  return
 }
 
 // has to be package-scoped because of 
@@ -78,26 +105,24 @@ func ownerDocument(n Node) (d Document) {
 }
 
 //func (n *_node) OwnerDocument(n Node) (d Document) {
-  //d = nil;
-  //p := n.p;
+  //d = nil
+  //p := n.p
   //
   //for p!=nil {
   //  if p.NodeType()==9 {
-  //    return (*_doc)(p);
+  //    return (*_doc)(p)
   //  }
-  //  p = n.p;
+  //  p = n.p
   //}
-//  return Document(nil);
+//  return Document(nil)
 //}
 
-
 func newNode(_t int) (n *_node) {
-  n = new(_node);
-  n.T = _t;
+  n = new(_node)
+  n.T = _t
   n.self = Node(n)
-  return;
+  return
 }
-
 
 func (p *_node) InsertBefore(nc Node, rc Node) Node {
   if rc == nil {
@@ -121,13 +146,14 @@ func (p *_node) InsertBefore(nc Node, rc Node) Node {
       nc.setParent(p)
     }
   }
-  return nc;
+  return nc
 }
 
 func (p *_node) ReplaceChild(nc Node, rc Node) Node {
-  p.InsertBefore(nc, rc);
-  return p.RemoveChild(rc);
+  p.InsertBefore(nc, rc)
+  return p.RemoveChild(rc)
 }
+
 func (p *_node) FirstChild() Node {
   res := Node(nil)
   if p.c.Len() > 0 {
@@ -135,6 +161,7 @@ func (p *_node) FirstChild() Node {
   }
   return res
 }
+
 func (p *_node) LastChild() Node {
   res := Node(nil)
   if p.c.Len() > 0 {
@@ -142,6 +169,7 @@ func (p *_node) LastChild() Node {
   }
   return res
 }
+
 func (n *_node) PreviousSibling() Node {
   children := n.p.ChildNodes()
   for i := children.Length()-1; i > 0; i-- {
@@ -151,6 +179,7 @@ func (n *_node) PreviousSibling() Node {
   }
   return Node(nil)
 }
+
 func (n *_node) NextSibling() Node { 
   children := n.p.ChildNodes()
   for i := uint(0); i < children.Length()-1; i++ {

@@ -8,29 +8,33 @@ package dom
  */
 
 import (
-  "xml";
+  "xml"
 )
 
-
 type _cdata struct {
-  *_node;
+  *_node
 }
 
 type _text struct {
-  *_cdata;
-  content []byte;
+  *_cdata
+  content []byte
 }
 
-func (t *_text) NodeName() (s string) { return "#text"; }
-func (t *_text) NodeValue() (s string) { return string(t.content); }
+func (t *_text) NodeName() (s string) {
+  return "#text"
+}
+
+func (t *_text) NodeValue() (s string) {
+  return string(t.content)
+}
 
 func (t *_text) OwnerDocument() Document {
-  return ownerDocument(t);
+  return ownerDocument(t)
 }
 
 func newText(token xml.CharData) (*_text) {
-  n := newNode(TEXT_NODE);
-  t := &_text{ &_cdata{n}, token.Copy() };
+  n := newNode(TEXT_NODE)
+  t := &_text{ &_cdata{n}, token.Copy() }
   n.self = Node(t)
   return t
 }

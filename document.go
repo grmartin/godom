@@ -8,62 +8,62 @@ package dom
  */
 
 import (
-  "xml";
-  "os";
+  "xml"
+  "os"
 )
 
 type _doc struct {
-  *_node;
+  *_node
 }
 
 func (d *_doc) NodeValue() string {
-  return "";
+  return ""
 }
 
 func (d *_doc) AppendChild(c Node) Node {
-  return appendChild(d,c);
+  return appendChild(d,c)
 }
 
 func (d *_doc) RemoveChild(c Node) Node {
-  return removeChild(d,c);
+  return removeChild(d,c)
 }
 
 func (d *_doc) DocumentElement() Element {
-  return d.ChildNodes().Item(0).(Element);
+  return d.ChildNodes().Item(0).(Element)
 }
 
 func (d *_doc) OwnerDocument() Document {
-  return ownerDocument(d);
+  return ownerDocument(d)
 }
 
 func (d *_doc) CreateElement(tag string) Element { 
-  return newElem(xml.StartElement { xml.Name { "", tag }, nil }); 
+  return newElem(xml.StartElement { xml.Name { "", tag }, nil })
 }
 
 func (d *_doc) CreateTextNode(data string) Text {
-  return newText(xml.CharData([]byte(data)));
+  return newText(xml.CharData([]byte(data)))
 }
 
 func (d *_doc) setRoot(r Element) Element {
   // empty the children vector
   if d.ChildNodes().Length() > 0 {
-    os.Exit(-1);
+    os.Exit(-1)
   }
-  appendChild(d,r);
-  return r;
+  appendChild(d,r)
+  return r
 }
 
 func (d *_doc) GetElementById(id string) Element {
-  return getElementById(d.DocumentElement(), id);
+  return getElementById(d.DocumentElement(), id)
 }
 
 func (d *_doc) GetElementsByTagName(tagName string) NodeList {
-  return newTagNodeList(d, tagName);
+  return newTagNodeList(d, tagName)
 }
 
 func newDoc() (*_doc) {
-  n := newNode(9)
-  d := &_doc{ n };
+  n := newNode(DOCUMENT_NODE)
+  d := &_doc{ n }
   n.self = Node(n)
   return d
 }
