@@ -60,7 +60,7 @@ func prevSibling(n Node) Node {
 */
 
 func getElementById(e Element, id string) Element {
-  if e.NodeType() == 1 {
+  if e.NodeType() == ELEMENT_NODE {
     // check for an id
     if av := e.GetAttribute("id"); av != "" {
       if av==id {
@@ -142,7 +142,7 @@ func Parse(r io.Reader) (doc Document, err os.Error) {
 func toXml(n Node) string {
   s := ""
   switch n.NodeType() {
-    case 1: // Element Nodes
+    case ELEMENT_NODE: // Element Nodes
       s += "<" + n.NodeName()
   
       // iterate over attributes
@@ -160,7 +160,7 @@ func toXml(n Node) string {
   
       s += "</" + n.NodeName() + ">"
       
-    case 3: // Text Nodes
+    case TEXT_NODE: // Text Nodes
       s += n.NodeValue()
       break
   }

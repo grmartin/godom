@@ -42,7 +42,7 @@ func (a *_attr) Attributes() NamedNodeMap {
 }
 
 func newAttr(name string, val string) (*_attr) {
-  node := newNode(2)
+  node := newNode(ATTRIBUTE_NODE)
   node.n = xml.Name{"", name}
   a := &_attr { node, val }
   node.self = Node(a)
