@@ -11,25 +11,26 @@ package dom
 // This way the list can be live, each time Length() or Item is
 // called, fresh results are returned.
 type _childNodelist struct {
-  p *_node;
+  p *_node
 }
 
 func (nl *_childNodelist) Length() uint {
-  return uint(nl.p.c.Len());
+  return uint(nl.p.c.Len())
 }
+
 func (nl *_childNodelist) Item(index uint) Node {
-  n := Node(nil);
+  n := Node(nil)
   if index < uint(nl.p.c.Len()) {
     // TODO: what if index == nl.p.c.Len() -1 and a node is deleted right now?
-    n = nl.p.c.At(int(index)).(Node);
+    n = nl.p.c.At(int(index)).(Node)
   }
-  return n;
+  return n
 }
 
 func newChildNodelist(p *_node) (*_childNodelist) {
-  nl := new(_childNodelist);
-  nl.p = p;
-  return nl;
+  nl := new(_childNodelist)
+  nl.p = p
+  return nl
 }
 
 // TODO: Find a home for this function.  It operates only on interface types.
@@ -39,8 +40,8 @@ func newChildNodelist(p *_node) (*_childNodelist) {
  * will continue until the function does not return true.
  */
 func walkTreeDepthFirst(n Node, f func(Node) bool) bool {
-  childNodes := n.ChildNodes();
-  numChildren := childNodes.Length();
+  childNodes := n.ChildNodes()
+  numChildren := childNodes.Length()
   var ix uint
   for ix = 0; ix < numChildren; ix++ {
     child := childNodes.Item(ix)
@@ -59,7 +60,7 @@ func walkTreeDepthFirst(n Node, f func(Node) bool) bool {
 // live.  TODO: Do we really query every time or can we cache the results
 // somehow?
 type _tagNodeList struct {
-  rootNode Node;
+  rootNode Node
   tag string
 }
 
@@ -69,7 +70,7 @@ func (nl *_tagNodeList) Length() uint {
   walkTreeDepthFirst(parentElement, func(n Node) bool {
     if n.NodeType() == 1 {
       if nl.tag == "*" || nl.tag == n.(Element).TagName() {
-        count++;
+        count++
       }
     }
     return true
@@ -99,9 +100,9 @@ func (nl *_tagNodeList) Item(index uint) Node {
 }
 
 func newTagNodeList(p Node, t string) (*_tagNodeList) {
-  nl := new(_tagNodeList);
-  nl.rootNode = p;
+  nl := new(_tagNodeList)
+  nl.rootNode = p
   nl.tag = t
-  return nl;
+  return nl
 }
 
