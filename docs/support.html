@@ -15,7 +15,7 @@
 </head>
 <body>
 <h1>DOM Core Support in godom</h1>
-<p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a> and a couple methods from DOM Level 2.</p>
+<p>This table shows the current level of <a href="http://www.w3.org/TR/DOM-Level-3-Core/">DOM Core</a> support in <a href="http://godom.googlecode.com/">godom</a>.  At present, this table only shows <a href="http://www.w3.org/TR/REC-DOM-Level-1/">DOM Core Level 1</a> and a couple properties/methods from DOM Level 2.</p>
 <table border="1">
 <tr><th>Interface</th><th>Property/Method</th><th>Support?</th></tr>
 
@@ -146,10 +146,11 @@
 	<td class="no">Text splitText(in unsigned long offset)</td><td class="no"></td></tr><tr>
 </tr>
 
-<tr id="Attr"><td rowspan="3" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024">Attr</a> : <a href="#Node">Node</a></td>
+<tr id="Attr"><td rowspan="4" class="partial"><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024">Attr</a> : <a href="#Node">Node</a></td>
 	<td class="yes">DOMString <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1112119403">name</a></td><td class="yes">Supported</td></tr><tr>
 	<td class="no">boolean specified</td><td class="no"></td></tr><tr>
 	<td class="yes">DOMString <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-221662474">value</a></td><td class="yes">Supported</td></tr><tr>
+	<td class="yes">Element <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Attr-ownerElement">ownerElement</a></td><td class="yes">Supported</td></tr><tr>
 </tr>
 
 <tr><td rowspan="1" class="no">Comment : CharacterData</td>

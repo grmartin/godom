@@ -80,6 +80,8 @@ type (
     OwnerDocument() Document
     Name() string
     Value() string
+    // DOM Level 2
+    OwnerElement() Element
   }
   
   // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177

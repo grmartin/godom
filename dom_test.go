@@ -350,6 +350,16 @@ func TestAttrValue(t *testing.T) {
   }
 }
 
+func TestAttrOwnerElement(t *testing.T) {
+  d, _ := dom.ParseString(`<parent attr1="val1"/>`)
+  r := d.DocumentElement()
+  a := r.GetAttributeNode("attr1")
+
+  if a.OwnerElement() != r {
+    t.Errorf("a.OwnerElement() not set to the owner element")
+  }
+}
+
 func TestAttributesSetting(t *testing.T) {
   d, _ := dom.ParseString(`<parent attr1="val" attr2="val"><child></child></parent>`)
   r := d.DocumentElement()
