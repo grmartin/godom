@@ -77,6 +77,8 @@ type (
   Attr interface {
     Node
     OwnerDocument() Document
+    Name() string
+    Value() string
   }
   
   // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
