@@ -862,6 +862,36 @@ func TestElementRemoveAttribute(t *testing.T) {
   }
 }
 
+func TestElementRemoveAttributeNode(t *testing.T) {
+  d, _ := dom.ParseString(`<foo attr1="val1"/>`)
+  r := d.DocumentElement()
+
+  oldAttr := r.GetAttributeNode("attr1")
+  removedAttr := r.RemoveAttributeNode(oldAttr)
+
+  if r.Attributes().Length() != 0 {
+    t.Errorf("Node still had an attribute")
+  }
+  if removedAttr != oldAttr {
+    t.Errorf("Removed node not equal to the node passed into RemoveAttributeNode()")
+  }
+}
+
+func TestElementRemoveAttributeNodeNotPresent(t *testing.T) {
+  d, _ := dom.ParseString(`<foo attr1="val1"/>`)
+  r := d.DocumentElement()
+  oldAttr := d.CreateAttribute("attr1")
+
+  removedAttr := r.RemoveAttributeNode(oldAttr)
+
+  if r.Attributes().Length() != 1 {
+    t.Errorf("Node lost its attribute")
+  }
+  if removedAttr != nil {
+    t.Errorf("Removed node not equal to nil when attempted to be removed from an Element that did not own it")
+  }
+}
+
 func TestElementHasAttribute(t *testing.T) {
   d, _ := dom.ParseString(`<parent attr="val"/>`)
   r := d.DocumentElement()
