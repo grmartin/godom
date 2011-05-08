@@ -12,7 +12,7 @@ import (
 )
 
 type _text struct {
-  *_cdata
+  _cdata
 }
 
 func (t *_text) NodeName() (s string) {
@@ -21,7 +21,7 @@ func (t *_text) NodeName() (s string) {
 
 func newText(token xml.CharData) (*_text) {
   n := newNode(TEXT_NODE)
-  t := &_text{ &_cdata{n, token.Copy()} }
+  t := &_text{ _cdata{n, token.Copy()} }
   n.self = Node(t)
   return t
 }
