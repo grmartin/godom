@@ -463,6 +463,15 @@ func TestCharacterDataLength(t *testing.T) {
   }
 }
 
+func TestCharacterDataData(t *testing.T) {
+  d, _ := dom.ParseString(`<parent>foo</parent>`)
+  r := d.DocumentElement()
+  cdata := r.ChildNodes().Item(0).(dom.Text)
+  if cdata.Data() != "foo" {
+    t.Errorf("CharacterData.data not correct")
+  }
+}
+
 func TestTextNodeType(t *testing.T) {
   d, _ := dom.ParseString(`<parent>mom</parent>`)
   r := d.DocumentElement()
