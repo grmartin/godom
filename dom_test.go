@@ -4,7 +4,6 @@ import (
   "testing";
   "xml/dom";
   "strconv";
-//  "fmt";
 )
 
 // Document.nodeName should be #document
@@ -97,6 +96,50 @@ func TestElementSetAttribute(t *testing.T) {
   root.SetAttribute("bar", "baz")
   if (root.GetAttribute("bar") != "baz") {
   	t.Errorf("Element.getAttribute() did not return the attribute value")
+  }
+}
+
+func TestElementSetAttributeNode(t *testing.T) {
+  d, _ := dom.ParseString(`<foo/>`)
+  root := d.DocumentElement()
+  newAttr := d.CreateAttribute("attr1")
+
+  root.SetAttributeNode(newAttr)
+  if (root.Attributes().Length() != 1) {
+    t.Errorf("Element.attributes.length not 1")
+  }
+}
+
+func TestElementSetAttributeNodeDuplicate(t *testing.T) {
+  d, _ := dom.ParseString(`<foo attr1="val1"/>`)
+  root := d.DocumentElement()
+  newAttr := d.CreateAttribute("attr1")
+
+  root.SetAttributeNode(newAttr)
+  if (root.Attributes().Length() != 1) {
+    t.Errorf("Element.attributes.length not 1")
+  }
+  if (root.GetAttribute("attr1") != "") {
+    t.Errorf("Element.setAttribute() did not reset the attribute")
+  }
+}
+
+func TestElementSetAttributeNodeAlreadyOwned(t *testing.T) {
+  d1, _ := dom.ParseString(`<foo attr1="val1"/>`)
+  d2, _ := dom.ParseString(`<foo/>`)
+
+  r1 := d1.DocumentElement()
+  r2 := d2.DocumentElement()
+
+  attr1 := r1.GetAttributeNode("attr1")
+
+  r2.SetAttributeNode(attr1)
+
+  if (r1.Attributes().Length() != 1) {
+    t.Errorf("Root 1 lost an attribute")
+  }
+  if (r2.Attributes().Length() != 0) {
+    t.Errorf("Root 2 gained an attribute")
   }
 }
 
@@ -197,6 +240,24 @@ func TestDocumentCreateTextNode(t *testing.T) {
   }
   if (tn.NodeValue() != "text inside") {
   	t.Errorf("document.CreateTextNode(\"text inside\") created a Text node with \"%s\" contents", tn.NodeValue())
+  }
+}
+
+func TestDocumentCreateAttribute(t *testing.T) {
+  d, _ := dom.ParseString(`<foo/>`)
+  a := d.CreateAttribute("attr1")
+
+  if (a.NodeType() != dom.ATTRIBUTE_NODE) {
+    t.Errorf("document.createAttribute() did not create a node of type ATTRIBUTE_NODE")
+  }
+  if (a.Name() != "attr1") {
+    t.Errorf("document.createAttribute() did not set the attribute's name")
+  }
+  if (a.Value() != "") {
+    t.Errorf("document.createAttribute() did not create an attribute with an empty string value")
+  }
+  if (a.OwnerElement() != nil) {
+    t.Errorf("document.createAttribute() did not create an owner-less Attr")
   }
 }
 

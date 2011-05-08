@@ -51,13 +51,16 @@ func (a *_attr) Name() string {
 }
 
 func (a *_attr) OwnerElement() Element {
+  if a.ownerElement == nil {
+    return nil;
+  }
   return a.ownerElement;
 }
 
 func newAttr(name string, val string, owner *_elem) (*_attr) {
   node := newNode(ATTRIBUTE_NODE)
   node.n = xml.Name{"", name}
-  a := &_attr { node, val, owner }
+  a := &_attr { _node: node, value: val, ownerElement: owner }
   node.self = Node(a)
   return a
 }

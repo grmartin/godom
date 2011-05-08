@@ -44,6 +44,10 @@ func (d *_doc) CreateTextNode(data string) Text {
   return newText(xml.CharData([]byte(data)))
 }
 
+func (d *_doc) CreateAttribute(name string) Attr {
+  return newAttr(name, "", nil)
+}
+
 func (d *_doc) setRoot(r Element) Element {
   // empty the children vector
   if d.ChildNodes().Length() > 0 {

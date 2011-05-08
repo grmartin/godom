@@ -47,7 +47,7 @@ func (e *_elem) GetElementById(id string) Element {
 func (e *_elem) GetAttribute(name string) string {
   attr, ok := e.attribs[name]
   if (ok) {
-    return attr.value
+    return attr.Value()
   }
   return ""
 }
@@ -67,6 +67,19 @@ func (e *_elem) SetAttribute(attrName string, attrVal string) {
   } else {
     attr.value = attrVal
   }
+}
+
+func (e *_elem) SetAttributeNode(newAttr Attr) Attr {
+  oldAttr, ok := e.attribs[newAttr.Name()]
+  // New attribute must not have an owner element.
+  if (newAttr.OwnerElement() == nil) {
+    var a *_attr = newAttr.(*_attr)
+    e.attribs[newAttr.Name()] = a
+    if (ok) {
+      return oldAttr;
+    }
+  }
+  return nil;
 }
 
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-6D6AC0F9
