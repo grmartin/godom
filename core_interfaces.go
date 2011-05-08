@@ -99,5 +99,6 @@ type (
   NamedNodeMap interface {
     Length() uint
     Item(index uint) Node
+    GetNamedItem(name string) Node
   }
 )
