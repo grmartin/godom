@@ -45,6 +45,7 @@ type (
     GetAttribute(name string) string
     GetAttributeNode(name string) Attr
     SetAttribute(name string, value string)
+    SetAttributeNode(newAttr Attr) Attr
     RemoveAttribute(name string)
     OwnerDocument() Document
     GetElementsByTagName(name string) NodeList
@@ -57,6 +58,7 @@ type (
     DocumentElement() Element
     CreateElement(tagName string) Element
     CreateTextNode(data string) Text
+    CreateAttribute(name string) Attr
     OwnerDocument() Document
     // DOM Level 2
     GetElementById(id string) Element
