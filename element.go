@@ -87,6 +87,16 @@ func (e *_elem) RemoveAttribute(name string) {
   e.attribs[name] = nil, false
 }
 
+func (e *_elem) RemoveAttributeNode(oldAttr Attr) Attr {
+  for name, attr := range e.attribs {
+    if attr == oldAttr {
+      e.attribs[name] = nil, false
+      return oldAttr
+    }
+  }
+  return nil;
+}
+
 // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-ElHasAttr
 func (e *_elem) HasAttribute(name string) bool {
   _, has := e.attribs[name]

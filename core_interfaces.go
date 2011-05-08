@@ -47,6 +47,7 @@ type (
     SetAttribute(name string, value string)
     SetAttributeNode(newAttr Attr) Attr
     RemoveAttribute(name string)
+    RemoveAttributeNode(oldAttr Attr) Attr
     OwnerDocument() Document
     GetElementsByTagName(name string) NodeList
     HasAttribute(name string) bool
