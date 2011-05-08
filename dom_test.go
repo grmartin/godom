@@ -563,6 +563,36 @@ func TestAttributesNamedNodeMapGetNamedItem(t *testing.T) {
   }
 }
 
+func TestAttributesNamedNodeMapSetNamedItem(t *testing.T) {
+  d, _ := dom.ParseString(`<parent attr1="val1" attr2="val2"></parent>`);
+  r := d.DocumentElement();
+  attrs := r.Attributes();
+
+  attr2 := d.CreateAttribute("attr2")
+  attr2Returned := attrs.SetNamedItem(attr2)
+  if attr2Returned == nil {
+    t.Errorf("NamedNodeMap.setNamedItem(attr2) returned nil")
+  }
+  if attr2Returned == attr2 {
+    t.Errorf("NamedNodeMap.setNamedItem(attr2) returned attr2")
+  }
+  if r.GetAttribute("attr2") != "" {
+    t.Errorf("attr2 was not empty")
+  }
+
+  attr3 := d.CreateAttribute("attr3")
+  attr3Returned := attrs.SetNamedItem(attr3)
+  if attr3Returned != nil {
+    t.Errorf("NamedNodeMap.setNamedItem(attr3) did not return nil")
+  }
+  if r.GetAttribute("attr3") != "" {
+    t.Errorf("attr3 was not empty")
+  }
+  if r.Attributes().Length() != 3 {
+    t.Errorf("Did not have 3 attributes")
+  }
+}
+
 func TestNodeOwnerDocument(t *testing.T) {
   d, _ := dom.ParseString(`<parent><child/><child>kid</child></parent>`)
   r := d.DocumentElement()

@@ -100,5 +100,6 @@ type (
     Length() uint
     Item(index uint) Node
     GetNamedItem(name string) Node
+    SetNamedItem(arg Node) Node
   }
 )

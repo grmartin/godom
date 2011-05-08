@@ -37,6 +37,13 @@ func (m *_attrnamednodemap) GetNamedItem(name string) Node {
   return Node(nil)
 }
 
+func (m *_attrnamednodemap) SetNamedItem(arg Node) Node {
+  if arg != nil && arg.NodeType() == ATTRIBUTE_NODE {
+    return m.e.SetAttributeNode(arg.(Attr))
+  }
+  return nil
+}
+
 func newAttrNamedNodeMap(e *_elem) (*_attrnamednodemap) {
   nm := new(_attrnamednodemap)
   nm.e = e
