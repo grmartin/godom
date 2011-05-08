@@ -70,6 +70,7 @@ type (
   CharacterData interface {
     Node
     Length() uint32
+    Data() string
   }
   
   // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
