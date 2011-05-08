@@ -13,7 +13,7 @@ package dom
 // TODO: split this out into separate interfaces again eventually
 
 type (
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1950641247
   Node interface {
     AppendChild(Node) Node
     RemoveChild(Node) Node
@@ -38,7 +38,7 @@ type (
     removeChild(Node)
   }
   
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614
   Element interface {
     Node
     TagName() string
@@ -53,7 +53,7 @@ type (
     HasAttribute(name string) bool
   }
   
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document
   Document interface {
     Node
     DocumentElement() Element
@@ -73,10 +73,15 @@ type (
     Data() string
   }
   
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
   Text interface {
     CharacterData
     OwnerDocument() Document
+  }
+
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1728279322
+  Comment interface {
+    CharacterData
   }
   
   // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-637646024
@@ -89,7 +94,7 @@ type (
     OwnerElement() Element
   }
   
-  // DOM3: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
+  // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-536297177
   NodeList interface {
     Length() uint
     Item(index uint) Node

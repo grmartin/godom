@@ -120,6 +120,8 @@ func Parse(r io.Reader) (doc Document, err os.Error) {
         }
       case xml.CharData:
         e.AppendChild(newText(token))
+      case xml.Comment:
+        e.AppendChild(newComment(token))
       case xml.EndElement:
         e = e.ParentNode()
       default:

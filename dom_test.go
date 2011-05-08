@@ -1002,3 +1002,25 @@ func TestElementHasAttribute(t *testing.T) {
     t.Errorf("Element.HasAttribute() returned true after removing an attribute")
   }
 }
+
+func TestParseComment(t *testing.T) {
+  d, _ := dom.ParseString(`<parent><foo/><!-- comment is here --><bar/></parent>`)
+  r := d.DocumentElement()
+
+  if r.ChildNodes().Length() != 3 {
+    t.Errorf("Parent did not have 3 children, it had %d children", r.ChildNodes().Length())
+  }
+  c := r.ChildNodes().Item(1)
+  if (c == nil) {
+    t.Errorf("Comment node was nil")
+  }
+  if (c.NodeType() != dom.COMMENT_NODE) {
+    t.Errorf("Comment.nodeType was not correct: %d", c.NodeType())
+  }
+  if (c.NodeName() != "#comment") {
+    t.Errorf("Comment.nodeName was not correct: %s", c.NodeName())
+  }
+  if (c.NodeValue() != " comment is here ") {
+    t.Errorf("Comment.nodeValue was not correct: '%s'", c.NodeValue())
+  }
+}
