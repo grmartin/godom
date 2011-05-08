@@ -1,7 +1,7 @@
 package dom
 
 /*
- * NodeList implementations
+ * NodeList implementations.
  *
  * Copyright (c) 2009, Rob Russell
  * Copyright (c) 2010, Jeff Schiller

@@ -1,7 +1,7 @@
 package dom
 
 /*
- * NamedNodeMap implementation
+ * NamedNodeMap implementations.
  *
  * Copyright (c) 2010, Jeff Schiller
  */
@@ -23,6 +23,15 @@ func (m *_attrnamednodemap) Item(index uint) Node {
         return attr
       }
       i += 1
+    }
+  }
+  return Node(nil)
+}
+
+func (m *_attrnamednodemap) GetNamedItem(name string) Node {
+  for attrName, attr := range(m.e.attribs) {
+    if name == attrName {
+      return attr
     }
   }
   return Node(nil)

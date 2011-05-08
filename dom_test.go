@@ -538,7 +538,28 @@ func TestAttributesNamedNodeMapLive(t *testing.T) {
   r.SetAttribute("attr3", "val3");
   n3 := attrs.Length();
   if n2 != 2 || n3 != 3 {
-    t.Errorf("NamedoNodeMap via Node.Attributes() was not live");
+    t.Errorf("NamedNodeMap via Node.Attributes() was not live");
+  }
+}
+
+func TestAttributesNamedNodeMapGetNamedItem(t *testing.T) {
+  d, _ := dom.ParseString(`<parent attr1="val1" attr2="val2"></parent>`);
+  r := d.DocumentElement();
+  attrs := r.Attributes();
+
+  attr2 := attrs.GetNamedItem("attr2")
+  if attr2 == nil {
+    t.Errorf("Could not find attr2")
+  }
+
+  attr1 := attrs.GetNamedItem("attr1")
+  if attr1 == nil {
+    t.Errorf("Could not find attr1")
+  }
+
+  nilAttr := attrs.GetNamedItem("attr3")
+  if nilAttr != nil {
+    t.Errorf("nilAttr was not nil")
   }
 }
 
