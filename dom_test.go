@@ -440,11 +440,17 @@ func TestToXml(t *testing.T) {
   d2, _ := dom.ParseString(s)
   r2 := d2.DocumentElement()
   
-  if r2.NodeName() != "parent" ||
-     r2.GetAttribute("attr") != "val" ||
-     r2.ChildNodes().Length() != 2 ||
-     r2.ChildNodes().Item(0).NodeValue() != "mom" {
-  	t.Errorf("ToXml() did not serialize the DOM to text")
+  if r2.NodeName() != "parent" {
+    t.Errorf("r2 nodeName != parent")
+  }
+  if r2.GetAttribute("attr") != "val" {
+    t.Errorf("r2 attribute value != val")
+  }
+  if r2.ChildNodes().Length() != 2 {
+    t.Errorf("r2.childNodes.length != 2")
+  }
+  if r2.ChildNodes().Item(0).NodeValue() != "mom" {
+  	t.Errorf("First text node value != 'mom', it was '%s' instead", r2.ChildNodes().Item(0).NodeValue())
   }
 }
 
