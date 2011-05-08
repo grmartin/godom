@@ -10,6 +10,7 @@ GOFILES=\
 	element.go \
 	characterdata.go \
 	text.go \
+	comment.go \
 	nodelists.go \
 	namednodemap.go \
 	dom.go
