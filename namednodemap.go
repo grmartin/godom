@@ -44,6 +44,16 @@ func (m *_attrnamednodemap) SetNamedItem(arg Node) Node {
   return nil
 }
 
+func (m *_attrnamednodemap) RemoveNamedItem(name string) Node {
+  if name != "" {
+    attr := m.e.GetAttributeNode(name)
+    if attr != nil {
+      return m.e.RemoveAttributeNode(attr)
+    }
+  }
+  return nil
+}
+
 func newAttrNamedNodeMap(e *_elem) (*_attrnamednodemap) {
   nm := new(_attrnamednodemap)
   nm.e = e

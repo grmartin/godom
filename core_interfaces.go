@@ -101,5 +101,6 @@ type (
     Item(index uint) Node
     GetNamedItem(name string) Node
     SetNamedItem(arg Node) Node
+    RemoveNamedItem(name string) Node
   }
 )

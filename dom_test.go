@@ -593,6 +593,29 @@ func TestAttributesNamedNodeMapSetNamedItem(t *testing.T) {
   }
 }
 
+func TestAttributesNamedNodeMapRemoveNamedItem(t *testing.T) {
+  d, _ := dom.ParseString(`<parent attr1="val1" attr2="val2"></parent>`);
+  r := d.DocumentElement();
+  attrs := r.Attributes();
+
+  attr2 := attrs.GetNamedItem("attr2")
+  attrRemoved := attrs.RemoveNamedItem("attr2")
+  if attrs.Length() != 1 {
+    t.Errorf("Did not drop down to 1 Attr")
+  }
+  if attrRemoved != attr2 {
+    t.Errorf("Removed named item not matching")
+  }
+
+  attrRemoved = attrs.RemoveNamedItem("attr3")
+  if attrs.Length() != 1 {
+    t.Errorf("Lost an additional attr")
+  }
+  if attrRemoved != nil {
+    t.Errorf("Invalid attr set")
+  }
+}
+
 func TestNodeOwnerDocument(t *testing.T) {
   d, _ := dom.ParseString(`<parent><child/><child>kid</child></parent>`)
   r := d.DocumentElement()
