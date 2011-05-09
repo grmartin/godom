@@ -253,7 +253,7 @@ func TestDocumentCreateAttribute(t *testing.T) {
   if (a.Name() != "attr1") {
     t.Errorf("document.createAttribute() did not set the attribute's name")
   }
-  if (a.Value() != "") {
+  if (a.GetValue() != "") {
     t.Errorf("document.createAttribute() did not create an attribute with an empty string value")
   }
   if (a.OwnerElement() != nil) {
@@ -365,12 +365,12 @@ func TestGetAttributeNode(t *testing.T) {
   r := d.DocumentElement()
 
   attr1 := r.GetAttributeNode("attr1")
-  if attr1.Name() != "attr1" || attr1.Value() != "val1" {
+  if attr1.Name() != "attr1" || attr1.GetValue() != "val1" {
     t.Errorf("Attribute node 1 not correct")
   }
 
   attr2 := r.GetAttributeNode("attr2")
-  if attr2.Name() != "attr2" || attr2.Value() != "val2" {
+  if attr2.Name() != "attr2" || attr2.GetValue() != "val2" {
     t.Errorf("Attribute node 2 not correct")
   }
 }
@@ -402,12 +402,23 @@ func TestAttrNodeValue(t *testing.T) {
   }
 }
 
-func TestAttrValue(t *testing.T) {
+func TestAttrGetValue(t *testing.T) {
   d, _ := dom.ParseString(`<parent attr1="val1"/>`)
   r := d.DocumentElement()
   
-  if r.Attributes().Item(0).(dom.Attr).Value() != "val1" {
-  	t.Errorf("Element.attributes().item(0).Value() did not return the proper value")
+  if r.Attributes().Item(0).(dom.Attr).GetValue() != "val1" {
+  	t.Errorf("Attr.GetValue() did not return the proper value")
+  }
+}
+
+func TestAttrSetValue(t *testing.T) {
+  d, _ := dom.ParseString(`<parent attr1="val1"/>`)
+  r := d.DocumentElement()
+  a := r.Attributes().Item(0).(dom.Attr)
+  a.SetValue("foo")
+
+  if a.GetValue() != "foo" {
+  	t.Errorf("Attr.SetValue() did not work")
   }
 }
 
@@ -463,11 +474,21 @@ func TestCharacterDataLength(t *testing.T) {
   }
 }
 
-func TestCharacterDataData(t *testing.T) {
+func TestCharacterDataGetData(t *testing.T) {
   d, _ := dom.ParseString(`<parent>foo</parent>`)
   r := d.DocumentElement()
   cdata := r.ChildNodes().Item(0).(dom.Text)
-  if cdata.Data() != "foo" {
+  if cdata.GetData() != "foo" {
+    t.Errorf("CharacterData.data not correct")
+  }
+}
+
+func TestCharacterDataSetData(t *testing.T) {
+  d, _ := dom.ParseString(`<parent>bar</parent>`)
+  r := d.DocumentElement()
+  cdata := r.ChildNodes().Item(0).(dom.Text)
+  cdata.SetData("foo")
+  if cdata.GetData() != "foo" {
     t.Errorf("CharacterData.data not correct")
   }
 }

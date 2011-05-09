@@ -42,8 +42,12 @@ func (a *_attr) Attributes() NamedNodeMap {
   return NamedNodeMap(nil)
 }
 
-func (a *_attr) Value() string {
+func (a *_attr) GetValue() string {
   return a.NodeValue()
+}
+
+func (a *_attr) SetValue(newValue string) {
+  a.value = newValue
 }
 
 func (a *_attr) Name() string {

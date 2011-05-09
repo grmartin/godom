@@ -47,7 +47,7 @@ func (e *_elem) GetElementById(id string) Element {
 func (e *_elem) GetAttribute(name string) string {
   attr, ok := e.attribs[name]
   if (ok) {
-    return attr.Value()
+    return attr.GetValue()
   }
   return ""
 }

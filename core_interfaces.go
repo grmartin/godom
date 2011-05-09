@@ -70,7 +70,8 @@ type (
   CharacterData interface {
     Node
     Length() uint32
-    Data() string
+    GetData() string
+    SetData(string)
   }
   
   // http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-1312295772
@@ -89,7 +90,8 @@ type (
     Node
     OwnerDocument() Document
     Name() string
-    Value() string
+    GetValue() string
+    SetValue(string)
     // DOM Level 2
     OwnerElement() Element
   }
